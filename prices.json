@@ -204,7 +204,7 @@
     13378.7,
     13929.3,
     12984.4,
-    12934.2
+    13552.0
   ],
   "gold": [
     1870.87,
@@ -275,7 +275,7 @@
     4175.71,
     4053.75
   ],
-  "last_updated": "2026-07-27T23:29:45.398582Z",
+  "last_updated": "2026-07-27T23:47:09.261741Z",
   "meta": {
     "oil": {
       "unit": "USD / barrel",
@@ -293,13 +293,13 @@
       "source": "LBMA / spot benchmark via Metals-API"
     },
     "last_run_warnings": [
-      "銅／黃金抓取失敗：HTTP Error 401: Unauthorized"
+      "黃金抓取失敗：缺少 METALS_API_KEY，無法抓取黃金價格"
     ]
   },
   "previous_snapshot": {
     "oil": 84.38,
     "copper": 12934.2,
     "gold": 4053.75,
-    "as_of": "2026-07-27T16:46:50.996461Z"
+    "as_of": "2026-07-27T23:29:45.398582Z"
   }
 }
