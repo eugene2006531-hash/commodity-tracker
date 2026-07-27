@@ -24,7 +24,7 @@ import datetime
 import urllib.request
 import urllib.error
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "prices.json")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "prices.json")son")
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "").strip()
 METALS_API_KEY = os.environ.get("METALS_API_KEY", "").strip()
