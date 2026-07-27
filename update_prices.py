@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-每日更新 data/prices.json：
+每日更新 prices.json：
   - 原油 WTI：美國 EIA 官方 API（series PET.RWTC.D，每日現貨價）
-  - 銅：LME 銅（LME-XCU）settlement price，經 Metals-API 取得，單位 USD/tonne
-  - 黃金：XAU 現貨價，經 Metals-API 取得，單位 USD/oz
+  - 銅：FRED（美國聖路易斯聯邦儲備銀行）官方資料庫，series PCOPPUSDM，
+    來源是 IMF，單位明確是 USD/公噸（月度資料，免費、無付費牆）
+  - 黃金：MetalpriceAPI（api.metalpriceapi.com），免費方案，單位 USD/盎司
 
 需要的環境變數（由 GitHub Actions secrets 注入）：
   EIA_API_KEY      - 到 https://www.eia.gov/opendata/register.php 免費申請
-  METALS_API_KEY   - 到 https://metals-api.com （或替代服務，見下方 FALLBACK 註解）申請
+  FRED_API_KEY     - 到 https://fredaccount.stlouisfed.org/apikeys 免費申請
+  METALS_API_KEY   - 到 https://metalpriceapi.com/register 免費申請
 
 設計邏輯：
   - 若目前月份（YYYY-MM）已經是資料裡最後一筆 label，就「更新」最後一筆數值
@@ -27,6 +29,7 @@ import urllib.error
 DATA_PATH = os.path.join(os.path.dirname(__file__), "prices.json")
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "").strip()
+FRED_API_KEY = os.environ.get("FRED_API_KEY", "").strip()
 METALS_API_KEY = os.environ.get("METALS_API_KEY", "").strip()
 
 
@@ -47,7 +50,6 @@ def fetch_wti():
 
     errors = []
 
-    # 方法一：v2 facets 查詢
     try:
         url = (
             "https://api.eia.gov/v2/petroleum/pri/spt/data/"
@@ -67,7 +69,6 @@ def fetch_wti():
     except Exception as e:
         errors.append(f"facets 查詢失敗：{e}")
 
-    # 方法二（備援）：v2 相容 v1 的 /seriesid/ 路徑
     try:
         url = f"https://api.eia.gov/v2/seriesid/PET.RWTC.D?api_key={EIA_API_KEY}"
         payload = http_get_json(url)
@@ -82,43 +83,64 @@ def fetch_wti():
     raise RuntimeError("；".join(errors))
 
 
-def fetch_metals():
-    """回傳 (copper_usd_per_tonne, gold_usd_per_oz)，來源 Metals-API。"""
-    if not METALS_API_KEY:
-        raise RuntimeError("缺少 METALS_API_KEY，無法抓取銅／黃金價格")
+def fetch_copper_fred():
+    """回傳最新一筆 LME 銅價 (USD/公噸)，來源 FRED series PCOPPUSDM（IMF 官方資料）。
+    這個 series 明確以 USD/Metric Ton 為單位，不需要猜測換算方式。
+    月度資料，通常會有一兩個月的公告延遲，所以抓到的是「最新已公告」的月份，
+    不一定是當月，這是官方資料本身的發布節奏，不是抓取邏輯的問題。
+    """
+    if not FRED_API_KEY:
+        raise RuntimeError("缺少 FRED_API_KEY，無法抓取銅價")
 
     url = (
-        "https://metals-api.com/api/latest"
-        f"?access_key={METALS_API_KEY}"
-        "&base=USD&symbols=XAU,LME-XCU"
+        "https://api.stlouisfed.org/fred/series/observations"
+        f"?series_id=PCOPPUSDM&api_key={FRED_API_KEY}&file_type=json"
+        "&sort_order=desc&limit=6"
     )
     payload = http_get_json(url)
+    obs = payload.get("observations", [])
+    for row in obs:
+        val = row.get("value")
+        if val and val != ".":  # FRED 用 "." 代表暫缺資料
+            return float(val), row.get("date")
+    raise RuntimeError(f"FRED 回傳沒有可用的銅價資料：{payload}")
+
+
+def fetch_gold():
+    """回傳最新一筆黃金現貨價 (USD/oz)，來源 MetalpriceAPI（免費方案支援貴金屬）。"""
+    if not METALS_API_KEY:
+        raise RuntimeError("缺少 METALS_API_KEY，無法抓取黃金價格")
+
+    url = (
+        "https://api.metalpriceapi.com/v1/latest"
+        f"?api_key={METALS_API_KEY}"
+        "&base=USD&currencies=XAU"
+    )
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "commodities-tracker/1.0",
+            "X-API-KEY": METALS_API_KEY,
+        },
+    )
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        payload = json.loads(resp.read().decode("utf-8"))
+
     if not payload.get("success", False):
-        raise RuntimeError(f"Metals-API 回傳失敗：{payload}")
+        raise RuntimeError(f"MetalpriceAPI 回傳失敗：{payload}")
 
-    rates = payload["rates"]
+    rates = payload.get("rates", {})
+    print(f"  MetalpriceAPI 原始回應 rates：{rates}")
 
-    # --- 黃金 XAU ---
-    # Metals-API 對貴金屬通常回傳「1 USD = 多少盎司黃金」的反向匯率，
-    # 所以真正的美元/盎司價格 = 1 / rates['XAU']。
-    # 但不同帳戶/方案偶爾格式不同，這裡做防呆判斷：
-    xau_raw = rates.get("XAU")
+    xau_raw = rates.get("XAU") or rates.get("USDXAU")
     if xau_raw is None:
-        raise RuntimeError(f"回應中找不到 XAU：{rates}")
-    gold_usd_per_oz = (1.0 / xau_raw) if xau_raw < 1 else xau_raw
+        raise RuntimeError(f"回應中找不到黃金 (XAU)：{rates}")
 
-    # --- 銅 LME-XCU ---
-    xcu_raw = rates.get("LME-XCU")
-    if xcu_raw is None:
-        raise RuntimeError(f"回應中找不到 LME-XCU：{rates}")
-    # LME-XCU 若是「每美元可換多少單位」的反向匯率（數值遠小於 1），要取倒數；
-    # 若已經是每噸價格（數值落在幾千到幾萬區間），就直接使用。
-    if xcu_raw < 1:
-        copper_usd_per_tonne = 1.0 / xcu_raw
-    else:
-        copper_usd_per_tonne = xcu_raw
-
-    return copper_usd_per_tonne, gold_usd_per_oz
+    candidates = [xau_raw, (1.0 / xau_raw) if xau_raw else None]
+    for val in candidates:
+        if val is not None and 500 <= val <= 10000:
+            return val
+    raise RuntimeError(f"黃金價格換算結果不在合理範圍 (500~10000)，原始值：{xau_raw}")
 
 
 def main():
@@ -135,11 +157,16 @@ def main():
         errors.append(f"原油抓取失敗：{e}")
 
     try:
-        copper_val, gold_val = fetch_metals()
-        print(f"LME 銅最新價：{copper_val:.1f} USD/tonne")
+        copper_val, copper_period = fetch_copper_fred()
+        print(f"LME 銅最新價：{copper_val:.1f} USD/tonne（FRED 公告月份 {copper_period}）")
+    except Exception as e:
+        errors.append(f"銅價抓取失敗：{e}")
+
+    try:
+        gold_val = fetch_gold()
         print(f"黃金最新價：{gold_val:.2f} USD/oz")
     except Exception as e:
-        errors.append(f"銅／黃金抓取失敗：{e}")
+        errors.append(f"黃金抓取失敗：{e}")
 
     if oil_val is None and copper_val is None and gold_val is None:
         print("三項資料全部抓取失敗，中止更新，保留原檔：")
@@ -152,7 +179,6 @@ def main():
 
     labels = data["labels"]
 
-    # 記錄「這次更新之前」的數值，讓通知腳本可以算出「較上次」的漲跌幅
     data["previous_snapshot"] = {
         "oil": data["oil"][-1],
         "copper": data["copper"][-1],
@@ -161,7 +187,6 @@ def main():
     }
 
     if labels[-1] == current_label:
-        # 同一個月份 -> 更新最後一筆
         if oil_val is not None:
             data["oil"][-1] = round(oil_val, 2)
         if copper_val is not None:
@@ -169,7 +194,6 @@ def main():
         if gold_val is not None:
             data["gold"][-1] = round(gold_val, 2)
     else:
-        # 新的月份 -> 新增一筆（缺漏的項目就沿用上個月數值，避免圖表斷裂）
         labels.append(current_label)
         data["oil"].append(round(oil_val, 2) if oil_val is not None else data["oil"][-1])
         data["copper"].append(round(copper_val, 1) if copper_val is not None else data["copper"][-1])
@@ -185,7 +209,7 @@ def main():
     with open(DATA_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print("已更新 data/prices.json")
+    print("已更新 prices.json")
     if errors:
         print("部分項目有警告（但仍保留可用資料）：")
         for e in errors:
