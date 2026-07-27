@@ -44,5 +44,5 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           # 把下面這個網址換成你自己的 GitHub Pages 網址
-          DASHBOARD_URL: "https://your-username.github.io/commodity-tracker/"
+          DASHBOARD_URL: "https://eugene2006531-hash.github.io/commodity-tracker/"
         run: python scripts/send_telegram.py
