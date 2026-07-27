@@ -135,7 +135,7 @@
     114.96,
     106.94,
     84.83,
-    87.07
+    84.38
   ],
   "copper": [
     7815.1,
@@ -275,7 +275,7 @@
     4175.71,
     4053.75
   ],
-  "last_updated": "2026-07-27T00:00:00Z",
+  "last_updated": "2026-07-27T16:46:50.996461Z",
   "meta": {
     "oil": {
       "unit": "USD / barrel",
@@ -291,6 +291,15 @@
       "unit": "USD / oz",
       "name": "Gold Spot (XAU)",
       "source": "LBMA / spot benchmark via Metals-API"
-    }
+    },
+    "last_run_warnings": [
+      "銅／黃金抓取失敗：HTTP Error 401: Unauthorized"
+    ]
+  },
+  "previous_snapshot": {
+    "oil": 87.07,
+    "copper": 12934.2,
+    "gold": 4053.75,
+    "as_of": "2026-07-27T00:00:00Z"
   }
 }
