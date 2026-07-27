@@ -23,7 +23,7 @@ import datetime
 import urllib.request
 import urllib.parse
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "prices.json")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "prices.json")
 
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 CHAT_IDS_RAW = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
