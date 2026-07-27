@@ -480,7 +480,7 @@ function renderLastUpdated(){
 
 async function loadDataAndInit(){
   try{
-    const res = await fetch('data/prices.json', {cache:'no-store'});
+    const res = await fetch('prices.json', {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     DATA = await res.json();
   }catch(e){
