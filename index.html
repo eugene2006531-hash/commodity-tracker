@@ -108,7 +108,7 @@
   .hero{
     max-width:1080px;
     margin:0 auto;
-    padding:88px 24px 64px;
+    padding:34px 24px 18px;
   }
   .eyebrow{
     font-family:'IBM Plex Mono',monospace;
@@ -119,9 +119,9 @@
     margin-bottom:20px;
   }
   .hero h1{
-    font-family:'Oswald',sans-serif;
+    font-family:'Noto Sans TC',sans-serif;
     font-weight:700;
-    font-size:clamp(40px,7vw,88px);
+    font-size:clamp(30px,4vw,48px);
     letter-spacing:1px;
     line-height:1;
     display:flex;
@@ -133,15 +133,15 @@
   .hero h1 span.gc{color:var(--gold);}
   .hero h1 span.sep{color:var(--text-faint);font-weight:400;}
   .hero .sub{
-    margin-top:22px;
-    font-size:clamp(17px,2.4vw,22px);
+    margin-top:12px;
+    font-size:clamp(14px,1.8vw,17px);
     color:var(--text-dim);
     max-width:620px;
     font-weight:400;
   }
   .hero .note{
-    margin-top:28px;
-    font-size:13px;
+    margin-top:12px;
+    font-size:11px;
     color:var(--text-faint);
     font-family:'IBM Plex Mono',monospace;
   }
@@ -321,6 +321,37 @@
     .ticker-track{animation:none;}
     .reveal{transition:none;opacity:1;transform:none;}
   }
+  .source-status{margin:14px 0 0;padding:12px 14px;border-radius:8px;font-size:12px;line-height:1.7;background:#2b2418;color:#f2c66d;border:1px solid #604b28;}
+  .source-status.ok{background:#142a24;color:#69d7aa;border-color:#285b4b;}
+  .source-status a,.fx-source a{color:inherit;font-weight:700;}
+  .fx-section{max-width:1180px;margin:100px auto 0;padding:0 28px;}
+  .fx-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:28px;}
+  .fx-card{background:#171a1f;border:1px solid #292e36;border-top:4px solid #5d83bd;border-radius:12px;padding:22px;}
+  .fx-pair{font-size:13px;color:#8993a7;letter-spacing:.08em;}
+  .fx-value{font-size:29px;color:#f3f5f8;font-weight:700;margin:12px 0 7px;}
+  .fx-unit{font-size:12px;color:#77808f;}
+  .fx-detail{font-size:11px;color:#697382;line-height:1.7;margin-top:14px;padding-top:12px;border-top:1px solid #292e36;}
+  .fx-source{margin-top:18px;color:#808a99;font-size:12px;line-height:1.8;}
+  .stale{color:#ff9a88;font-weight:700;}
+  .dashboard-overview{max-width:1180px;margin:34px auto 80px;padding:0 28px;}
+  .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+  .summary-card{border-radius:18px;padding:24px;min-height:125px;border:1px solid #343a43;background:#24282f;}
+  .summary-card:nth-child(2){background:#222b24;border-color:#364638}.summary-card:nth-child(3){background:#30272d;border-color:#493840}
+  .summary-label{font-size:14px;color:#8f96a1}.summary-value{font-size:31px;color:#f4f6f8;font-weight:700;margin:11px 0 5px}.summary-meta{font-size:13px;color:#7c8490}
+  .overview-head{display:flex;justify-content:space-between;align-items:end;margin:40px 0 18px}.overview-head h2{font-size:25px}.overview-head p{font-size:13px;color:#7e8692}
+  .market-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+  .market-card{min-height:150px;padding:18px;border-radius:12px;border:1px solid #3a414b;background:#20242a;display:flex;flex-direction:column;justify-content:space-between;}
+  .market-card.commodity{border-top:4px solid #c97b45}.market-card.fx{border-top:4px solid #6e987c;background:#202820}
+  .market-title{display:flex;justify-content:space-between;gap:8px;font-weight:700}.market-change.up{color:#f1a06f}.market-change.down{color:#79c6ac}
+  .market-price{font-size:25px;font-weight:700;color:#f1f3f6}.market-unit,.market-source{font-size:11px;color:#818996;line-height:1.5}
+  .analysis-panel{margin-top:44px;background:#171a1f;border:1px solid #2b3037;border-radius:14px;padding:26px;}
+  .analysis-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.analysis-title h2{font-size:22px}.analysis-badge{background:#16345b;color:#8fc4ff;border-radius:20px;padding:6px 11px;font-size:11px}
+  .analysis-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.analysis-item{background:#20242a;border-radius:10px;padding:17px;line-height:1.75;color:#c5cad2;font-size:13px}.analysis-item strong{display:block;color:#fff;margin-bottom:5px;font-size:15px}
+  .forecast-head{display:flex;justify-content:space-between;align-items:end;margin-top:28px;padding-top:22px;border-top:1px solid #2c3138}.forecast-head h3{font-size:18px}.forecast-head span{font-size:11px;color:#737d8b}
+  .forecast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:13px}.forecast-card{background:#1d2126;border-radius:10px;padding:16px;border-left:3px solid #89bdf5}.forecast-card h4{font-size:14px;margin-bottom:11px}.forecast-row{display:flex;justify-content:space-between;color:#aeb5c0;font-size:12px;padding:6px 0;border-top:1px solid #292e35}.forecast-row b{color:#f2f4f7}
+  @media(max-width:850px){.fx-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media(max-width:850px){.summary-grid,.analysis-list,.forecast-grid{grid-template-columns:1fr}.market-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media(max-width:520px){.fx-grid,.market-grid{grid-template-columns:1fr}.overview-head{display:block}.overview-head p{margin-top:8px}}
 </style>
 </head>
 <body>
@@ -334,13 +365,27 @@
 </div>
 
 <div class="hero">
-  <div class="eyebrow">COMMODITIES / 原物料價格追蹤 · 2021 – 2026</div>
-  <h1>
-    <span class="cl">CL</span><span class="sep">·</span><span class="hg">CA</span><span class="sep">·</span><span class="gc">GC</span>
-  </h1>
-  <p class="sub">原油・銅・黃金，三種驅動全球經濟的原物料，近五年走過戰爭、關稅、供給危機與央行搶購黃金的劇烈行情。下面用月均價與基準指數，把三者的漲跌放在同一張圖裡比較。</p>
-  <p class="note">資料範圍 2021-01 – 2026-07 · 月均價（近似值，綜合公開市場資料彙整）</p>
+  <div class="eyebrow">TKP · MARKET INTELLIGENCE</div>
+  <h1>每日國際原物料與匯率行情</h1>
+  <p class="sub">原油、國際銅價、黃金與臺灣銀行外匯牌告，一頁掌握最新數值、資料狀態與市場重點。</p>
+  <p class="note">原物料趨勢 2021–2026｜匯率依臺銀即期牌告｜所有資料均標示來源與更新時間</p>
 </div>
+
+<section class="dashboard-overview reveal">
+  <div class="summary-grid">
+    <article class="summary-card"><div class="summary-label">本月漲幅最多</div><div class="summary-value" id="summaryMover">—</div><div class="summary-meta">國際原物料行情</div></article>
+    <article class="summary-card"><div class="summary-label">美元兌臺幣</div><div class="summary-value" id="summaryUsdTwd">—</div><div class="summary-meta">臺銀即期賣出牌告</div></article>
+    <article class="summary-card"><div class="summary-label">下一次更新</div><div class="summary-value">06:00</div><div class="summary-meta">GitHub Pages · 每日排程</div></article>
+  </div>
+  <div class="overview-head"><h2>今日行情</h2><p>原物料與匯率分色顯示｜數值旁同步標示資料來源</p></div>
+  <div class="market-grid" id="marketGrid"></div>
+  <div class="analysis-panel">
+    <div class="analysis-title"><h2>市場重點分析</h2><span class="analysis-badge">DATA ANALYSIS</span></div>
+    <div class="analysis-list" id="analysisList"></div>
+    <div class="forecast-head"><h3>30／60／90 天趨勢觀察</h3><span>近期月度動能阻尼推估｜不是交易保證</span></div>
+    <div class="forecast-grid" id="forecastGrid"></div>
+  </div>
+</section>
 
 <section class="benchmark-section reveal">
   <div class="section-head">
@@ -392,15 +437,16 @@
 
 <section class="commodity-section reveal" id="copper-section">
   <div class="section-head">
-    <h2>個別走勢 · 銅（LME）</h2>
-    <p>LME（倫敦金屬交易所）銅價指數，反映全球實貨市場的國際銅價基準，而非美國單一市場的期貨價格。</p>
+    <h2>個別走勢 · 國際銅價（月度參考）</h2>
+    <p>目前使用 FRED／IMF 公布的美元／公噸月度銅價；不是 LME 當日 Cash Ask 或 3-month 即時報價。</p>
+    <div class="source-status" id="copper-status">資料來源檢查中…</div>
   </div>
   <div class="commodity-card" style="--c:var(--copper);--c-soft:var(--copper-soft);">
     <div class="commodity-top">
       <div class="commodity-id">
         <span class="ticker-badge">CA</span>
         <div>
-          <h3>銅 LME</h3>
+          <h3>國際銅價（月度）</h3>
           <div class="unit">美元 / 公噸</div>
         </div>
       </div>
@@ -421,6 +467,17 @@
       <div class="event-row"><span class="when">2026-01~05</span><span>AI 資料中心用電需求與供給緊張疊加，LME 銅價數度刷新歷史紀錄，一度衝上 13,800 美元/公噸以上。</span></div>
     </div>
   </div>
+</section>
+
+<section class="fx-section reveal" id="fx-section">
+  <div class="section-head">
+    <h2>臺幣兌外幣匯率</h2>
+    <p>以 1 新臺幣可購買多少外幣呈現；依臺灣銀行即期賣出價倒數計算，方便查看臺幣兌美元、人民幣、港幣及歐元。</p>
+  </div>
+  <div class="fx-grid" id="fxGrid">
+    <div class="fx-card">匯率載入中…</div>
+  </div>
+  <div class="fx-source" id="fxSource"></div>
 </section>
 
 <section class="commodity-section reveal" id="gold-section">
@@ -458,7 +515,7 @@
 
 <footer>
   <p>
-    資料說明：本頁 2021-01 至 2026-07 的歷史數據為月均價之近似值，綜合彙整自 WTI／LME／LBMA 等公開市場報導與歷史紀錄重建而成；此後每日由自動化排程串接 EIA（原油）與 Metals-API（銅、黃金）即時更新。長期趨勢僅供參考，非逐日精確報價，亦不構成投資建議。實際交易價格請以交易所即時報價為準。
+    資料說明：原油使用 EIA 日資料；黃金使用 XAU 現貨參考價；銅目前使用 FRED／IMF 月度資料，不是 LME 當日官方結算價；匯率使用臺灣銀行即期牌告。長期趨勢僅供參考，非交易報價，亦不構成投資建議。
   </p>
   <p id="lastUpdated" style="margin-top:10px;color:var(--text-faint);"></p>
 </footer>
@@ -469,7 +526,7 @@ const __STATIC_FALLBACK__ = {"labels": ["2021-01", "2021-02", "2021-03", "2021-0
 
 const COLORS = {
   oil:   { line:'#33B7A9', fill:'rgba(51,183,169,',  name:'原油 CL' },
-  copper:{ line:'#CD7B3E', fill:'rgba(205,123,62,', name:'銅 LME' },
+  copper:{ line:'#CD7B3E', fill:'rgba(205,123,62,', name:'銅月度參考' },
   gold:  { line:'#E8B84B', fill:'rgba(232,184,75,',  name:'黃金 GC' },
 };
 
@@ -499,6 +556,97 @@ function renderLastUpdated(){
   }catch(e){ el.textContent = '資料最後更新：' + DATA.last_updated; }
 }
 
+function renderSourceStatus(){
+  const el = document.getElementById('copper-status');
+  const meta = DATA.meta && DATA.meta.copper;
+  if(!el) return;
+  if(!meta){
+    el.textContent = '銅價缺少可追溯來源資料，請勿作為採購依據。';
+    return;
+  }
+  const date = meta.observation_date || '未提供';
+  el.innerHTML = `⚠ 銅價來源：FRED PCOPPUSDM／IMF 月度資料；觀測月份 ${date}。不是 LME 當日價。`+
+    ` <a href="https://www.lme.com/en/metals/non-ferrous/lme-copper" target="_blank" rel="noopener">查看 LME 官方銅價</a>`;
+}
+
+function renderFx(){
+  const grid = document.getElementById('fxGrid');
+  const source = document.getElementById('fxSource');
+  const fx = DATA.fx;
+  if(!grid || !source) return;
+  if(!fx || !fx.rates){
+    grid.innerHTML = '<div class="fx-card stale">臺銀匯率目前無法取得，已停止顯示舊數值。</div>';
+    source.innerHTML = '<a href="https://rate.bot.com.tw/xrt?Lang=zh-TW" target="_blank" rel="noopener">直接查看臺灣銀行牌告匯率</a>';
+    return;
+  }
+  const names={USD:'美元 USD',CNY:'人民幣 CNY',HKD:'港幣 HKD',EUR:'歐元 EUR'};
+  grid.innerHTML=['USD','CNY','HKD','EUR'].map(code=>{
+    const r=fx.rates[code];
+    if(!r) return `<div class="fx-card stale">${names[code]} 資料缺漏</div>`;
+    return `<article class="fx-card"><div class="fx-pair">TWD → ${code}</div>`+
+      `<div class="fx-value">${Number(r.twd_to_foreign).toFixed(6)}</div>`+
+      `<div class="fx-unit">1 TWD = ${Number(r.twd_to_foreign).toFixed(6)} ${code}</div>`+
+      `<div class="fx-detail">臺銀即期買進 ${Number(r.spot_buy).toFixed(4)} TWD<br>臺銀即期賣出 ${Number(r.spot_sell).toFixed(4)} TWD</div></article>`;
+  }).join('');
+  const fetched=new Date(fx.fetched_at);
+  const ageHours=(Date.now()-fetched.getTime())/3600000;
+  const stale=ageHours>72;
+  source.innerHTML = `${stale?'<span class="stale">⚠ 匯率資料已超過 72 小時，請以臺銀網站為準。</span><br>':''}`+
+    `來源：<a href="https://rate.bot.com.tw/xrt?Lang=zh-TW" target="_blank" rel="noopener">臺灣銀行牌告匯率</a>　`+
+    `擷取時間：${fetched.toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}（台北時間）<br>${fx.basis}`;
+}
+
+function renderOverview(){
+  const commodityDefs=[
+    ['oil','國際原油 WTI','USD／桶','EIA 日現貨價'],
+    ['copper','國際銅價','USD／公噸','FRED／IMF 月度參考'],
+    ['gold','國際黃金','USD／盎司','XAU 現貨參考價']
+  ];
+  const changes=commodityDefs.map(([key,name])=>{
+    const a=DATA[key],cur=a.at(-1),prev=a.at(-2),chg=(cur/prev-1)*100;
+    return {key,name,cur,chg};
+  });
+  const mover=[...changes].sort((a,b)=>b.chg-a.chg)[0];
+  document.getElementById('summaryMover').textContent=`${mover.name.replace('國際','')} ${mover.chg>=0?'▲':'▼'} ${Math.abs(mover.chg).toFixed(2)}%`;
+  const fx=DATA.fx&&DATA.fx.rates;
+  document.getElementById('summaryUsdTwd').textContent=fx&&fx.USD?Number(fx.USD.spot_sell).toFixed(3):'資料暫缺';
+  const commodityCards=commodityDefs.map(([key,name,unit,source])=>{
+    const item=changes.find(x=>x.key===key),dec=key==='copper'?0:2;
+    return `<article class="market-card commodity"><div class="market-title"><span>${name}</span><span class="market-change ${item.chg>=0?'up':'down'}">${item.chg>=0?'▲':'▼'} ${Math.abs(item.chg).toFixed(2)}%</span></div>`+
+      `<div><div class="market-price">${fmt(item.cur,dec)}</div><div class="market-unit">${unit}</div></div><div class="market-source">${source}</div></article>`;
+  });
+  const fxCards=fx?['USD','CNY','HKD','EUR'].map(code=>{
+    const r=fx[code];
+    return `<article class="market-card fx"><div class="market-title"><span>TWD／${code}</span><span class="market-change">● 臺銀</span></div>`+
+      `<div><div class="market-price">${Number(r.twd_to_foreign).toFixed(6)}</div><div class="market-unit">1 TWD 可兌 ${code}</div></div><div class="market-source">即期賣出 ${Number(r.spot_sell).toFixed(4)} TWD</div></article>`;
+  }):[];
+  document.getElementById('marketGrid').innerHTML=[...commodityCards,...fxCards].join('');
+
+  const threeMonth=changes.map(x=>{
+    const arr=DATA[x.key],base=arr.at(-4)||arr[0]; return {...x,qchg:(x.cur/base-1)*100};
+  });
+  const strongest=[...threeMonth].sort((a,b)=>b.qchg-a.qchg)[0];
+  const oil=changes.find(x=>x.key==='oil'),gold=changes.find(x=>x.key==='gold');
+  document.getElementById('analysisList').innerHTML=`
+    <article class="analysis-item"><strong>動能觀察</strong>${strongest.name}近三個月約${strongest.qchg>=0?'上漲':'下跌'} ${Math.abs(strongest.qchg).toFixed(1)}%，為三項原物料中相對動能最強。仍需搭配最新交易日報價判斷。</article>
+    <article class="analysis-item"><strong>能源與避險</strong>WTI 本月${oil.chg>=0?'上漲':'下跌'} ${Math.abs(oil.chg).toFixed(2)}%；黃金本月${gold.chg>=0?'上漲':'下跌'} ${Math.abs(gold.chg).toFixed(2)}%。兩者分別反映能源供需與避險需求，短期方向不可互相替代。</article>
+    <article class="analysis-item"><strong>資料風險提示</strong>銅價目前為 FRED／IMF 月資料，不是 LME 當日 Cash Ask；匯率為臺銀牌告參考。任何過期或抓取失敗的資料都不應直接用於採購定價。</article>`;
+
+  document.getElementById('forecastGrid').innerHTML=commodityDefs.map(([key,name,unit])=>{
+    const arr=DATA[key], latest=arr.at(-1);
+    const returns=[];
+    for(let i=Math.max(1,arr.length-4);i<arr.length;i++) returns.push(Math.log(arr[i]/arr[i-1]));
+    const momentum=returns.reduce((a,b)=>a+b,0)/returns.length;
+    const dec=key==='copper'?0:2, confidence=key==='copper'?45:62;
+    const rows=[[30,.70],[60,.50],[90,.35]].map(([days,damping])=>{
+      const months=days/30, estimate=latest*Math.exp(momentum*months*damping), delta=(estimate/latest-1)*100;
+      const direction=delta>1?'上行':delta<-1?'下行':'盤整';
+      return `<div class="forecast-row"><span>${days} 天 · ${direction}</span><b>${fmt(estimate,dec)}</b></div>`;
+    }).join('');
+    return `<article class="forecast-card"><h4>${name}</h4>${rows}<div class="market-source" style="margin-top:10px">參考信心 ${confidence}%${key==='copper'?'・月資料延遲':''}</div></article>`;
+  }).join('');
+}
+
 async function loadDataAndInit(){
   try{
     const res = await fetch('prices.json', {cache:'no-store'});
@@ -509,6 +657,9 @@ async function loadDataAndInit(){
     DATA = __STATIC_FALLBACK__;
   }
   buildTicker();
+  renderSourceStatus();
+  renderFx();
+  renderOverview();
 
 /* ---------------- Reveal on scroll ---------------- */
 const revealEls = document.querySelectorAll('.reveal');
@@ -581,7 +732,7 @@ function buildBenchmark(){
       labels:DATA.labels,
       datasets:[
         {label:'原油 CL',data:idxOil,borderColor:COLORS.oil.line,backgroundColor:(c)=>makeGradient(c.chart.ctx,c.chart.chartArea||{top:0,bottom:300},COLORS.oil.fill),borderWidth:2.4,pointRadius:0,fill:true,tension:.25},
-        {label:'銅 LME',data:idxCopper,borderColor:COLORS.copper.line,backgroundColor:(c)=>makeGradient(c.chart.ctx,c.chart.chartArea||{top:0,bottom:300},COLORS.copper.fill),borderWidth:2.4,pointRadius:0,fill:true,tension:.25},
+        {label:'銅月度參考',data:idxCopper,borderColor:COLORS.copper.line,backgroundColor:(c)=>makeGradient(c.chart.ctx,c.chart.chartArea||{top:0,bottom:300},COLORS.copper.fill),borderWidth:2.4,pointRadius:0,fill:true,tension:.25},
         {label:'黃金 GC',data:idxGold,borderColor:COLORS.gold.line,backgroundColor:(c)=>makeGradient(c.chart.ctx,c.chart.chartArea||{top:0,bottom:300},COLORS.gold.fill),borderWidth:2.4,pointRadius:0,fill:true,tension:.25},
       ]
     },
@@ -601,7 +752,7 @@ function buildBenchmark(){
 /* toggle buttons */
 function buildToggles(){
   const row = document.getElementById('toggleRow');
-  const keys = [['oil','原油 CL',0],['copper','銅 LME',1],['gold','黃金 GC',2]];
+  const keys = [['oil','原油 CL',0],['copper','銅月度參考',1],['gold','黃金 GC',2]];
   keys.forEach(([key,label,dsIdx])=>{
     const btn = document.createElement('button');
     btn.className = 'toggle-btn active';
@@ -622,7 +773,7 @@ function buildIndexStats(){
   const wrap = document.getElementById('indexStats');
   const rows = [
     ['oil','原油 CL', DATA.oil],
-    ['copper','銅 LME', DATA.copper],
+    ['copper','銅月度參考', DATA.copper],
     ['gold','黃金 GC', DATA.gold],
   ];
   rows.forEach(([key,label,arr])=>{

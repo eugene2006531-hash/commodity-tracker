@@ -25,6 +25,9 @@ import json
 import datetime
 import urllib.request
 import urllib.error
+import csv
+import io
+import re
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "prices.json")
 
@@ -32,12 +35,62 @@ EIA_API_KEY = os.environ.get("EIA_API_KEY", "").strip()
 FRED_API_KEY = os.environ.get("FRED_API_KEY", "").strip()
 METALS_API_KEY = os.environ.get("METALS_API_KEY", "").strip()
 
+BOT_CSV_URL = "https://rate.bot.com.tw/xrt/flcsv/0/day"
+BOT_PAGE_URL = "https://rate.bot.com.tw/xrt?Lang=zh-TW"
+FX_CODES = ("USD", "CNY", "HKD", "EUR")
+
 
 def http_get_json(url, timeout=20):
     req = urllib.request.Request(url, headers={"User-Agent": "commodities-tracker/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         body = resp.read().decode("utf-8")
         return json.loads(body)
+
+
+def parse_bot_csv(raw):
+    """Parse Bank of Taiwan's official daily CSV into spot bid/ask rates."""
+    text = raw.decode("utf-8-sig") if isinstance(raw, bytes) else raw.lstrip("\ufeff")
+    rows = list(csv.reader(io.StringIO(text)))
+    if not rows or "幣別" not in rows[0][0]:
+        raise RuntimeError("臺銀匯率 CSV 格式不符或網站暫時阻擋")
+    result = {}
+    for row in rows[1:]:
+        if len(row) < 5:
+            continue
+        match = re.search(r"\(([A-Z]{3})\)", row[0])
+        if not match or match.group(1) not in FX_CODES:
+            continue
+        code = match.group(1)
+        try:
+            spot_buy, spot_sell = float(row[3]), float(row[4])
+        except (TypeError, ValueError):
+            continue
+        if spot_buy <= 0 or spot_sell <= 0 or spot_buy > spot_sell:
+            raise RuntimeError(f"臺銀 {code} 即期買賣價不合理")
+        result[code] = {
+            "spot_buy": spot_buy,
+            "spot_sell": spot_sell,
+            # 客戶拿新臺幣向銀行買外幣，採銀行即期賣出價。
+            "twd_to_foreign": 1.0 / spot_sell,
+        }
+    missing = [code for code in FX_CODES if code not in result]
+    if missing:
+        raise RuntimeError("臺銀匯率缺少：" + ", ".join(missing))
+    return result
+
+
+def fetch_bot_rates(timeout=20):
+    req = urllib.request.Request(
+        BOT_CSV_URL,
+        headers={
+            "User-Agent": "Mozilla/5.0 TKP-commodity-tracker/2.0",
+            "Accept": "text/csv,text/plain,*/*",
+            "Referer": BOT_PAGE_URL,
+        },
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        raw = resp.read()
+    return parse_bot_csv(raw)
 
 
 def fetch_wti():
@@ -149,6 +202,7 @@ def main():
 
     errors = []
     oil_val = copper_val = gold_val = None
+    fx_rates = None
 
     try:
         oil_val, oil_period = fetch_wti()
@@ -167,6 +221,14 @@ def main():
         print(f"黃金最新價：{gold_val:.2f} USD/oz")
     except Exception as e:
         errors.append(f"黃金抓取失敗：{e}")
+
+    try:
+        fx_rates = fetch_bot_rates()
+        print("臺銀即期匯率：" + ", ".join(
+            f"1 TWD = {fx_rates[code]['twd_to_foreign']:.6f} {code}" for code in FX_CODES
+        ))
+    except Exception as e:
+        errors.append(f"臺銀匯率抓取失敗：{e}")
 
     if oil_val is None and copper_val is None and gold_val is None:
         print("三項資料全部抓取失敗，中止更新，保留原檔：")
@@ -201,8 +263,44 @@ def main():
 
     data["last_updated"] = now.isoformat().replace("+00:00", "Z")
 
+    meta = data.setdefault("meta", {})
+    meta["oil"] = {
+        "unit": "USD / barrel",
+        "name": "WTI Crude Oil",
+        "source": "U.S. EIA daily spot price (PET.RWTC.D)",
+        "observation_date": oil_period if oil_val is not None else meta.get("oil", {}).get("observation_date"),
+        "frequency": "daily",
+    }
+    meta["copper"] = {
+        "unit": "USD / metric tonne",
+        "name": "Copper monthly reference",
+        "source": "FRED PCOPPUSDM / IMF monthly copper price",
+        "source_url": "https://fred.stlouisfed.org/series/PCOPPUSDM",
+        "observation_date": copper_period if copper_val is not None else meta.get("copper", {}).get("observation_date"),
+        "frequency": "monthly_delayed",
+        "warning": "不是 LME 當日 Cash Ask 或 3-month 報價",
+    }
+    meta["gold"] = {
+        "unit": "USD / oz",
+        "name": "Gold spot reference",
+        "source": "MetalpriceAPI XAU spot reference",
+        "observation_date": data["last_updated"] if gold_val is not None else meta.get("gold", {}).get("observation_date"),
+        "frequency": "daily",
+    }
+
+    if fx_rates is not None:
+        data["fx"] = {
+            "base": "TWD",
+            "basis": "1 TWD 可購買之外幣；依臺銀即期賣出價倒數計算",
+            "source": "臺灣銀行牌告匯率",
+            "source_url": BOT_PAGE_URL,
+            "csv_url": BOT_CSV_URL,
+            "fetched_at": data["last_updated"],
+            "rates": fx_rates,
+        }
+
     if errors:
-        data.setdefault("meta", {})["last_run_warnings"] = errors
+        meta["last_run_warnings"] = errors
     elif "meta" in data and "last_run_warnings" in data["meta"]:
         del data["meta"]["last_run_warnings"]
 

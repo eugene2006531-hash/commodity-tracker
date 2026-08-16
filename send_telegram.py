@@ -69,9 +69,16 @@ def build_message(data):
         f"📊 <b>原物料每日快報</b> — {today_taipei}（台北時間）",
         "",
         line("🛢️", "原油 WTI", oil, 2, "/桶", oil_chg),
-        line("🟫", "銅 LME", copper, 0, "/公噸", copper_chg),
+        line("🟫", "國際銅價（月度參考）", copper, 0, "/公噸", copper_chg),
         line("🟡", "黃金 XAU", gold, 2, "/盎司", gold_chg),
     ]
+
+    fx = data.get("fx", {}).get("rates", {})
+    if fx:
+        lines += ["", "💱 <b>臺幣兌外幣（臺銀即期賣出價換算）</b>"]
+        for code, label in (("USD", "美元"), ("CNY", "人民幣"), ("HKD", "港幣"), ("EUR", "歐元")):
+            if code in fx:
+                lines.append(f"TWD/{code} {label}：1 TWD = <b>{fx[code]['twd_to_foreign']:.6f}</b> {code}")
 
     if DASHBOARD_URL:
         lines += ["", f"完整走勢圖：{DASHBOARD_URL}"]

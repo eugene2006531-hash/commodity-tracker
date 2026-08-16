@@ -284,17 +284,38 @@
     "oil": {
       "unit": "USD / barrel",
       "name": "WTI Crude Oil",
-      "source": "U.S. EIA (series PET.RWTC.D), official daily spot price"
+      "source": "U.S. EIA daily spot price (PET.RWTC.D)",
+      "frequency": "daily"
     },
     "copper": {
-      "unit": "USD / tonne",
-      "name": "LME Copper (LME-XCU)",
-      "source": "London Metal Exchange settlement price via Metals-API"
+      "unit": "USD / metric tonne",
+      "name": "Copper monthly reference",
+      "source": "FRED PCOPPUSDM / IMF monthly copper price",
+      "source_url": "https://fred.stlouisfed.org/series/PCOPPUSDM",
+      "observation_date": "2026-07",
+      "frequency": "monthly_delayed",
+      "warning": "不是 LME 當日 Cash Ask 或 3-month 報價"
     },
     "gold": {
       "unit": "USD / oz",
       "name": "Gold Spot (XAU)",
-      "source": "LBMA / spot benchmark via Metals-API"
+      "source": "MetalpriceAPI XAU spot reference",
+      "frequency": "daily"
+    }
+  },
+  "fx": {
+    "base": "TWD",
+    "basis": "1 TWD 可購買之外幣；依臺銀即期賣出價倒數計算",
+    "source": "臺灣銀行牌告匯率",
+    "source_url": "https://rate.bot.com.tw/xrt?Lang=zh-TW",
+    "csv_url": "https://rate.bot.com.tw/xrt/flcsv/0/day",
+    "quote_time": "2026-08-16T09:25:00+08:00",
+    "fetched_at": "2026-08-16T01:25:00Z",
+    "rates": {
+      "USD": {"spot_buy": 31.94, "spot_sell": 32.09, "twd_to_foreign": 0.03116235587410408},
+      "CNY": {"spot_buy": 4.718, "spot_sell": 4.778, "twd_to_foreign": 0.20929259104227713},
+      "HKD": {"spot_buy": 4.045, "spot_sell": 4.115, "twd_to_foreign": 0.24301336573511542},
+      "EUR": {"spot_buy": 36.745, "spot_sell": 37.345, "twd_to_foreign": 0.02677734636497523}
     }
   },
   "previous_snapshot": {
