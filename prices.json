@@ -207,7 +207,7 @@
     13929.3,
     12984.4,
     13552.0,
-    13552.0
+    13542.8
   ],
   "gold": [
     1870.87,
@@ -277,9 +277,9 @@
     4302.55,
     4175.71,
     4081.7,
-    4376.29
+    4376.5
   ],
-  "last_updated": "2026-08-16T22:13:10.561417Z",
+  "last_updated": "2026-08-17T22:16:32.896811Z",
   "meta": {
     "oil": {
       "unit": "USD / barrel",
@@ -293,7 +293,7 @@
       "name": "Copper monthly reference",
       "source": "FRED PCOPPUSDM / IMF monthly copper price",
       "source_url": "https://fred.stlouisfed.org/series/PCOPPUSDM",
-      "observation_date": "2026-06-01",
+      "observation_date": "2026-07-01",
       "frequency": "monthly_delayed",
       "warning": "不是 LME 當日 Cash Ask 或 3-month 報價"
     },
@@ -301,7 +301,7 @@
       "unit": "USD / oz",
       "name": "Gold spot reference",
       "source": "MetalpriceAPI XAU spot reference",
-      "observation_date": "2026-08-16T22:13:10.561417Z",
+      "observation_date": "2026-08-17T22:16:32.896811Z",
       "frequency": "daily"
     },
     "last_run_warnings": [
@@ -342,7 +342,7 @@
   "previous_snapshot": {
     "oil": 84.77,
     "copper": 13552.0,
-    "gold": 4352.81,
-    "as_of": "2026-08-15T22:13:15.527857Z"
+    "gold": 4376.29,
+    "as_of": "2026-08-16T22:13:10.561417Z"
   }
 }
