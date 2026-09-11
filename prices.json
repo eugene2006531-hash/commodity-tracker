@@ -281,9 +281,9 @@
     4175.71,
     4081.7,
     4455.55,
-    4351.83
+    4395.97
   ],
-  "last_updated": "2026-09-10T23:35:38.914365Z",
+  "last_updated": "2026-09-11T23:44:53.656213Z",
   "meta": {
     "oil": {
       "unit": "USD / barrel",
@@ -305,7 +305,7 @@
       "unit": "USD / oz",
       "name": "Gold spot reference",
       "source": "MetalpriceAPI XAU spot reference",
-      "observation_date": "2026-09-10T23:35:38.914365Z",
+      "observation_date": "2026-09-11T23:44:53.656213Z",
       "frequency": "daily"
     },
     "last_run_warnings": [
@@ -344,9 +344,9 @@
     }
   },
   "previous_snapshot": {
-    "oil": 91.48,
+    "oil": 97.26,
     "copper": 13542.8,
-    "gold": 4416.56,
-    "as_of": "2026-09-09T23:43:11.222713Z"
+    "gold": 4351.83,
+    "as_of": "2026-09-10T23:35:38.914365Z"
   }
 }
