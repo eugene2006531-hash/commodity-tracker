@@ -213,7 +213,7 @@
     13552.0,
     13542.8,
     13542.8,
-    13542.8
+    14473.1
   ],
   "gold": [
     1870.87,
@@ -285,9 +285,9 @@
     4081.7,
     4455.55,
     4122.4,
-    4116.42
+    4121.91
   ],
-  "last_updated": "2026-10-22T00:20:21.924630Z",
+  "last_updated": "2026-10-23T00:17:59.031619Z",
   "meta": {
     "oil": {
       "unit": "USD / barrel",
@@ -301,7 +301,7 @@
       "name": "Copper monthly reference",
       "source": "FRED PCOPPUSDM / IMF monthly copper price",
       "source_url": "https://fred.stlouisfed.org/series/PCOPPUSDM",
-      "observation_date": "2026-07-01",
+      "observation_date": "2026-09-01",
       "frequency": "monthly_delayed",
       "warning": "不是 LME 當日 Cash Ask 或 3-month 報價"
     },
@@ -309,11 +309,10 @@
       "unit": "USD / oz",
       "name": "Gold spot reference",
       "source": "MetalpriceAPI XAU spot reference",
-      "observation_date": "2026-10-22T00:20:21.924630Z",
+      "observation_date": "2026-10-23T00:17:59.031619Z",
       "frequency": "daily"
     },
     "last_run_warnings": [
-      "銅價抓取失敗：Expecting value: line 1 column 1 (char 0)",
       "臺銀匯率抓取失敗：臺銀匯率缺少：USD, CNY, HKD, EUR"
     ]
   },
@@ -349,9 +348,9 @@
     }
   },
   "previous_snapshot": {
-    "oil": 101.91,
+    "oil": 107.89,
     "copper": 13542.8,
-    "gold": 4137.5,
-    "as_of": "2026-10-21T00:17:04.081282Z"
+    "gold": 4116.42,
+    "as_of": "2026-10-22T00:20:21.924630Z"
   }
 }
