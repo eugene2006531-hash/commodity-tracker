@@ -143,7 +143,7 @@
     83.9,
     96.41,
     103.37,
-    89.62
+    89.53
   ],
   "copper": [
     7815.1,
@@ -289,15 +289,15 @@
     4455.55,
     4122.4,
     3998.59,
-    3849.98
+    3740.2
   ],
-  "last_updated": "2026-11-18T03:15:35.302756Z",
+  "last_updated": "2026-11-19T02:53:46.338522Z",
   "meta": {
     "oil": {
       "unit": "USD / barrel",
       "name": "WTI Crude Oil",
       "source": "U.S. EIA daily spot price (PET.RWTC.D)",
-      "observation_date": "2026-11-11",
+      "observation_date": "2026-11-17",
       "frequency": "daily"
     },
     "copper": {
@@ -313,7 +313,7 @@
       "unit": "USD / oz",
       "name": "Gold spot reference",
       "source": "MetalpriceAPI XAU spot reference",
-      "observation_date": "2026-11-18T03:15:35.302756Z",
+      "observation_date": "2026-11-19T02:53:46.338522Z",
       "frequency": "daily"
     },
     "last_run_warnings": [
@@ -354,7 +354,7 @@
   "previous_snapshot": {
     "oil": 89.62,
     "copper": 14473.1,
-    "gold": 3862.96,
-    "as_of": "2026-11-17T04:15:38.139745Z"
+    "gold": 3849.98,
+    "as_of": "2026-11-18T03:15:35.302756Z"
   }
 }
